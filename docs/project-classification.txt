@@ -1,0 +1,236 @@
+# PROJECT CLASSIFICATION & TECHNICAL POSITIONING PROMPT
+
+You are a senior AI systems architect, fintech AI consultant, enterprise ML engineer, and product strategist.
+
+Your task is to analyze and technically position the following project correctly.
+
+---
+
+# PROJECT NAME
+
+CollateralOS — AI-Native Collateral Intelligence Infrastructure for Secured Lending
+
+---
+
+# OBJECTIVE
+
+Analyze the project and explain:
+
+* what category of AI system it is
+* what technologies it combines
+* how it should be technically classified
+* what makes it different from normal ML or RAG projects
+* how it should be described professionally to judges, investors, engineers, and enterprise stakeholders
+
+---
+
+# IMPORTANT CONTEXT
+
+This project is NOT:
+
+* a simple chatbot
+* a standalone ML regression model
+* a basic RAG app
+* a CRUD dashboard
+* a toy AI wrapper
+
+The system combines:
+
+* ML models
+* AI agents
+* geospatial intelligence
+* liquidity modeling
+* fraud intelligence
+* underwriting automation
+* RAG pipelines
+* explainable AI reasoning
+* conversational AI
+* market intelligence
+* decision intelligence systems
+
+The platform evaluates:
+
+* property value
+* distress sale value
+* liquidity
+* resale certainty
+* underwriting confidence
+* recovery certainty
+* collateral behavior under market conditions
+
+using:
+
+* market dynamics
+* geospatial signals
+* AI reasoning
+* underwriting workflows
+* multi-agent collaboration
+
+---
+
+# REQUIRED ANALYSIS
+
+Generate a detailed explanation covering:
+
+## 1. What Type of Project This Is
+
+Explain whether it is:
+
+* ML
+* RAG
+* AI Agents
+* Decision Intelligence
+* Conversational AI
+* Geospatial AI
+* Fintech AI Infrastructure
+* Hybrid AI Systems
+* AI Operating System
+* Risk Intelligence Platform
+
+Explain WHY.
+
+---
+
+## 2. Technical System Classification
+
+Classify the project professionally.
+
+Examples:
+
+* AI-native decision intelligence platform
+* collateral intelligence infrastructure
+* underwriting automation ecosystem
+* fintech AI infrastructure
+* enterprise AI orchestration system
+
+Explain which classification is most accurate and why.
+
+---
+
+## 3. Technology Breakdown
+
+Explain the role of:
+
+* ML models
+* RAG architecture
+* AI agents
+* vector databases
+* geospatial intelligence
+* fraud engines
+* rules engines
+* conversational AI
+* analytics systems
+* explainability systems
+
+For each:
+
+* explain purpose
+* explain value
+* explain architectural role
+
+---
+
+## 4. AI Architecture Analysis
+
+Explain:
+
+* why the project is NOT a simple ML app
+* why it is NOT only a RAG chatbot
+* why multi-agent orchestration matters
+* why explainability matters
+* why hybrid AI systems are important
+
+---
+
+## 5. Enterprise Positioning
+
+Explain how this project should be presented to:
+
+* judges
+* investors
+* banks
+* NBFCs
+* fintech companies
+* engineering teams
+
+Provide:
+
+* elevator pitch
+* technical positioning
+* institutional positioning
+* enterprise framing
+
+---
+
+## 6. Industry Comparison
+
+Compare the project against:
+
+* traditional property valuation systems
+* standalone ML prediction systems
+* generic AI chatbots
+* normal underwriting software
+
+Explain:
+
+* what makes this system more advanced
+* what makes it enterprise-grade
+* what makes it AI-native
+
+---
+
+## 7. Architectural Strengths
+
+Analyze:
+
+* scalability
+* modularity
+* maintainability
+* observability
+* explainability
+* fraud resilience
+* production readiness
+* infrastructure-level thinking
+
+---
+
+## 8. Final Technical Identity
+
+Generate:
+
+* final project category
+* final technical classification
+* final enterprise positioning
+* final one-line description
+* final investor-grade explanation
+
+---
+
+# IMPORTANT INSTRUCTIONS
+
+The analysis MUST:
+
+* sound highly professional
+* sound enterprise-grade
+* avoid shallow explanations
+* avoid generic AI buzzwords
+* include systems-thinking
+* include infrastructure-level reasoning
+* explain WHY the architecture matters
+
+---
+
+# OUTPUT FORMAT
+
+Generate:
+
+* professional markdown
+* structured headings
+* technical depth
+* comparison tables
+* enterprise terminology
+* engineering-level explanations
+
+The final output should feel like:
+
+# a technical positioning and architecture analysis prepared by a senior AI systems consulting firm.
