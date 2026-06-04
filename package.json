@@ -1,0 +1,23 @@
+{
+  "name": "collateral-os",
+  "version": "1.0.0",
+  "description": "AI-Native Collateral Intelligence Infrastructure for Secured Lending",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "preinstall": "sh -c 'case \"$npm_config_user_agent\" in pnpm/*) ;; *) echo \"Use pnpm instead\" >&2; exit 1 ;; esac'",
+    "dev:backend": "pnpm --filter @collateral-os/backend run dev",
+    "dev:frontend": "pnpm --filter @collateral-os/frontend run dev",
+    "build": "pnpm run typecheck && pnpm -r --if-present run build",
+    "typecheck": "tsc --build && pnpm -r --filter './frontend' --filter './backend' --if-present run typecheck",
+    "db:push": "pnpm --filter @collateral-os/db run push",
+    "codegen": "pnpm --filter @collateral-os/api-spec run codegen",
+    "lint": "pnpm -r --if-present run lint",
+    "test": "pnpm -r --if-present run test",
+    "clean": "find . -name 'dist' -not -path '*/node_modules/*' -exec rm -rf {} + 2>/dev/null; echo 'Cleaned'"
+  },
+  "devDependencies": {
+    "prettier": "^3.8.3",
+    "typescript": "~5.9.3"
+  }
+}
