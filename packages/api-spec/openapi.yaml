@@ -1,0 +1,671 @@
+openapi: 3.1.0
+info:
+  title: Api
+  version: 0.1.0
+  description: CollateralOS — AI-Native Collateral Intelligence API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: properties
+    description: Collateral property management
+  - name: assessments
+    description: AI-driven collateral assessments
+  - name: loans
+    description: Loan applications
+  - name: alerts
+    description: Fraud and risk alerts
+  - name: dashboard
+    description: Dashboard summary and analytics
+
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  /properties:
+    get:
+      operationId: listProperties
+      tags: [properties]
+      summary: List all collateral properties
+      parameters:
+        - in: query
+          name: status
+          schema:
+            type: string
+          required: false
+        - in: query
+          name: riskCategory
+          schema:
+            type: string
+          required: false
+        - in: query
+          name: search
+          schema:
+            type: string
+          required: false
+      responses:
+        "200":
+          description: List of properties
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Property"
+    post:
+      operationId: createProperty
+      tags: [properties]
+      summary: Register a new collateral property
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PropertyInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Property"
+
+  /properties/{id}:
+    get:
+      operationId: getProperty
+      tags: [properties]
+      summary: Get property details
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Property
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Property"
+        "404":
+          description: Not found
+    patch:
+      operationId: updateProperty
+      tags: [properties]
+      summary: Update property
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PropertyUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Property"
+    delete:
+      operationId: deleteProperty
+      tags: [properties]
+      summary: Delete a property
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /assessments:
+    get:
+      operationId: listAssessments
+      tags: [assessments]
+      summary: List all assessments
+      parameters:
+        - in: query
+          name: propertyId
+          schema:
+            type: integer
+          required: false
+        - in: query
+          name: status
+          schema:
+            type: string
+          required: false
+      responses:
+        "200":
+          description: List of assessments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Assessment"
+    post:
+      operationId: createAssessment
+      tags: [assessments]
+      summary: Trigger a new AI assessment for a property
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AssessmentInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Assessment"
+
+  /assessments/{id}:
+    get:
+      operationId: getAssessment
+      tags: [assessments]
+      summary: Get full assessment report
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Assessment
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Assessment"
+        "404":
+          description: Not found
+
+  /loans:
+    get:
+      operationId: listLoans
+      tags: [loans]
+      summary: List all loan applications
+      parameters:
+        - in: query
+          name: status
+          schema:
+            type: string
+          required: false
+        - in: query
+          name: propertyId
+          schema:
+            type: integer
+          required: false
+      responses:
+        "200":
+          description: List of loans
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Loan"
+    post:
+      operationId: createLoan
+      tags: [loans]
+      summary: Create a new loan application
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoanInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Loan"
+
+  /loans/{id}:
+    get:
+      operationId: getLoan
+      tags: [loans]
+      summary: Get loan details
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Loan
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Loan"
+        "404":
+          description: Not found
+    patch:
+      operationId: updateLoan
+      tags: [loans]
+      summary: Update loan status
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoanUpdate"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Loan"
+
+  /alerts:
+    get:
+      operationId: listAlerts
+      tags: [alerts]
+      summary: List fraud and risk alerts
+      parameters:
+        - in: query
+          name: severity
+          schema:
+            type: string
+          required: false
+        - in: query
+          name: resolved
+          schema:
+            type: boolean
+          required: false
+      responses:
+        "200":
+          description: List of alerts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Alert"
+
+  /alerts/{id}/resolve:
+    patch:
+      operationId: resolveAlert
+      tags: [alerts]
+      summary: Mark an alert as resolved
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Resolved alert
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Alert"
+
+  /dashboard/summary:
+    get:
+      operationId: getDashboardSummary
+      tags: [dashboard]
+      summary: Portfolio summary metrics for the main dashboard
+      responses:
+        "200":
+          description: Dashboard summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DashboardSummary"
+
+  /dashboard/activity:
+    get:
+      operationId: getRecentActivity
+      tags: [dashboard]
+      summary: Recent platform activity feed
+      responses:
+        "200":
+          description: Activity items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ActivityItem"
+
+  /dashboard/risk-distribution:
+    get:
+      operationId: getRiskDistribution
+      tags: [dashboard]
+      summary: Risk category distribution across portfolio
+      responses:
+        "200":
+          description: Risk distribution breakdown
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/RiskDistributionItem"
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required: [status]
+
+    Property:
+      type: object
+      required: [id, address, propertyType, city, state, area, status, riskCategory, createdAt]
+      properties:
+        id:
+          type: integer
+        address:
+          type: string
+        propertyType:
+          type: string
+          description: "residential_apartment | residential_villa | commercial_office | commercial_retail | land | industrial"
+        city:
+          type: string
+        state:
+          type: string
+        area:
+          type: number
+          description: Area in square feet
+        ownerName:
+          type: ["string", "null"]
+        ownerContact:
+          type: ["string", "null"]
+        status:
+          type: string
+          description: "pending | under_assessment | assessed | flagged"
+        riskCategory:
+          type: ["string", "null"]
+          description: "low | moderate | high | critical"
+        estimatedValue:
+          type: ["number", "null"]
+          description: Value in INR
+        liquidityScore:
+          type: ["number", "null"]
+          description: 0-100
+        latestAssessmentId:
+          type: ["integer", "null"]
+        createdAt:
+          type: string
+
+    PropertyInput:
+      type: object
+      required: [address, propertyType, city, state, area]
+      properties:
+        address:
+          type: string
+        propertyType:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+        area:
+          type: number
+        ownerName:
+          type: string
+        ownerContact:
+          type: string
+
+    PropertyUpdate:
+      type: object
+      properties:
+        address:
+          type: string
+        status:
+          type: string
+        ownerName:
+          type: string
+        ownerContact:
+          type: string
+
+    Assessment:
+      type: object
+      required: [id, propertyId, status, createdAt]
+      properties:
+        id:
+          type: integer
+        propertyId:
+          type: integer
+        status:
+          type: string
+          description: "pending | processing | completed | failed"
+        valuationMin:
+          type: ["number", "null"]
+          description: Lower bound of value range in INR
+        valuationMax:
+          type: ["number", "null"]
+          description: Upper bound of value range in INR
+        valuationMid:
+          type: ["number", "null"]
+          description: Mid-point estimate in INR
+        confidenceScore:
+          type: ["number", "null"]
+          description: 0-100
+        liquidityScore:
+          type: ["number", "null"]
+          description: 0-100
+        liquidityLabel:
+          type: ["string", "null"]
+          description: "very_low | low | moderate | high | very_high"
+        resaleCertainty:
+          type: ["number", "null"]
+          description: 0-100
+        recoveryCertainty:
+          type: ["number", "null"]
+          description: 0-100
+        recommendedLtv:
+          type: ["number", "null"]
+          description: Percentage 0-100
+        riskCategory:
+          type: ["string", "null"]
+          description: "low | moderate | high | critical"
+        fraudRiskScore:
+          type: ["number", "null"]
+          description: 0-100
+        underwritingInsights:
+          type: ["string", "null"]
+          description: AI-generated narrative
+        marketIntelligence:
+          type: ["string", "null"]
+          description: Market conditions summary
+        geospatialNotes:
+          type: ["string", "null"]
+          description: Location and connectivity notes
+        createdAt:
+          type: string
+        completedAt:
+          type: ["string", "null"]
+
+    AssessmentInput:
+      type: object
+      required: [propertyId]
+      properties:
+        propertyId:
+          type: integer
+        notes:
+          type: string
+
+    Loan:
+      type: object
+      required: [id, propertyId, borrowerName, loanAmount, requestedLtv, status, createdAt]
+      properties:
+        id:
+          type: integer
+        propertyId:
+          type: integer
+        assessmentId:
+          type: ["integer", "null"]
+        borrowerName:
+          type: string
+        borrowerContact:
+          type: ["string", "null"]
+        loanAmount:
+          type: number
+          description: Requested loan in INR
+        requestedLtv:
+          type: number
+          description: LTV percentage requested
+        approvedLtv:
+          type: ["number", "null"]
+        status:
+          type: string
+          description: "pending | under_review | approved | rejected | disbursed"
+        riskVerdict:
+          type: ["string", "null"]
+          description: "safe | caution | high_risk"
+        analystNotes:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+
+    LoanInput:
+      type: object
+      required: [propertyId, borrowerName, loanAmount, requestedLtv]
+      properties:
+        propertyId:
+          type: integer
+        assessmentId:
+          type: integer
+        borrowerName:
+          type: string
+        borrowerContact:
+          type: string
+        loanAmount:
+          type: number
+        requestedLtv:
+          type: number
+        analystNotes:
+          type: string
+
+    LoanUpdate:
+      type: object
+      properties:
+        status:
+          type: string
+        approvedLtv:
+          type: number
+        riskVerdict:
+          type: string
+        analystNotes:
+          type: string
+
+    Alert:
+      type: object
+      required: [id, propertyId, alertType, severity, message, resolved, createdAt]
+      properties:
+        id:
+          type: integer
+        propertyId:
+          type: integer
+        assessmentId:
+          type: ["integer", "null"]
+        alertType:
+          type: string
+          description: "inflated_valuation | fake_size | location_mismatch | suspicious_pricing | abnormal_config | image_inconsistency"
+        severity:
+          type: string
+          description: "low | medium | high | critical"
+        message:
+          type: string
+        details:
+          type: ["string", "null"]
+        resolved:
+          type: boolean
+        resolvedAt:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+
+    DashboardSummary:
+      type: object
+      required: [totalProperties, activeLoans, totalPortfolioValue, avgLiquidityScore, avgConfidenceScore, pendingAssessments, openAlerts, approvedLoansThisMonth, portfolioValueChange]
+      properties:
+        totalProperties:
+          type: integer
+        activeLoans:
+          type: integer
+        totalPortfolioValue:
+          type: number
+        avgLiquidityScore:
+          type: number
+        avgConfidenceScore:
+          type: number
+        pendingAssessments:
+          type: integer
+        openAlerts:
+          type: integer
+        approvedLoansThisMonth:
+          type: integer
+        portfolioValueChange:
+          type: number
+          description: Percentage change from last month
+
+    ActivityItem:
+      type: object
+      required: [id, type, description, entityId, entityType, timestamp]
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+          description: "assessment_completed | loan_approved | loan_rejected | alert_raised | property_added | alert_resolved"
+        description:
+          type: string
+        entityId:
+          type: integer
+        entityType:
+          type: string
+        timestamp:
+          type: string
+
+    RiskDistributionItem:
+      type: object
+      required: [category, count, totalValue, percentage]
+      properties:
+        category:
+          type: string
+        count:
+          type: integer
+        totalValue:
+          type: number
+        percentage:
+          type: number
