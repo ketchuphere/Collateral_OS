@@ -182,6 +182,89 @@ generateAssessmentData(area)   ← assessment.service.ts
 
 ---
 
+## System Architecture
+
+```mermaid
+graph TD
+    subgraph Client["Client (Browser)"]
+        A["Lender / Analyst"] --> B["Role Selector"]
+        B --> C["AI Copilot Chat"]
+        B --> D["Ops Dashboard"]
+        B --> E["Portfolio Hub"]
+    end
+
+    subgraph PortfolioFeatures["Portfolio Features"]
+        E --> F1["Property List"]
+        E --> F2["Assessment Reports"]
+        E --> F3["Geo Intel Map"]
+        E --> F4["Stress Simulator"]
+        E --> F5["Fraud Alert Feed"]
+        E --> F6["Loan Applications"]
+    end
+
+    subgraph OpsFeatures["Operations Features"]
+        D --> G1["AI Portfolio Summary"]
+        D --> G2["Risk Distribution"]
+        D --> G3["Liquidity Gauge"]
+        D --> G4["Activity Feed"]
+        D --> G5["AI Confidence Widget"]
+    end
+
+    subgraph Services["3 AI Services + Assessment Engine"]
+        H1["assessment.service\ngenerateAssessmentData()"]
+        H2["copilot.service\nbuildCopilotContext()"]
+        H3["ai-client\nGroq singleton"]
+        H4["prompts/index.ts\nVersioned prompt registry"]
+    end
+
+    subgraph Server["Express 5 API Routes"]
+        I1["/api/ai-copilot → RAG + SSE"]
+        I2["/api/ai-portfolio-summary → SSE"]
+        I3["/api/ai-chat → SSE"]
+        I4["/api/properties → Zod validated"]
+        I5["/api/assessments → AI scoring"]
+        I6["/api/loans · /api/alerts · /api/dashboard"]
+    end
+
+    subgraph AILayer["AI Layer (Groq — llama-3.3-70b-versatile)"]
+        J1["Mode 1: General Assistant"]
+        J2["Mode 2: RAG Copilot\n4 parallel DB queries / request"]
+        J3["Mode 3: Portfolio Summary\nOne-shot structured output"]
+    end
+
+    subgraph DB["PostgreSQL — Drizzle ORM"]
+        K1["properties"]
+        K2["assessments"]
+        K3["loans"]
+        K4["alerts"]
+        K5["activity"]
+    end
+
+    subgraph Packages["pnpm Monorepo — Shared Packages"]
+        L1["api-spec (OpenAPI 3.1)\nSingle source of truth"]
+        L2["api-client-react\nOrval-generated TanStack hooks"]
+        L3["api-zod\nOrval-generated Zod validators"]
+        L4["db\nDrizzle schema + pg client"]
+    end
+
+    B --> Services
+    Services --> C
+    Services --> E
+    Services --> D
+    Server --> Services
+    Server --> DB
+    Server --> AILayer
+    AILayer --> J1
+    AILayer --> J2
+    AILayer --> J3
+    J2 -->|live context| DB
+    L1 -->|Orval codegen| L2
+    L1 -->|Orval codegen| L3
+    L2 -->|workspace ref| Client
+    L3 -->|workspace ref| Server
+    L4 -->|workspace ref| DB
+```
+
 ## API Reference
 
 All routes are prefixed `/api`. AI routes return `Content-Type: text/event-stream`.
