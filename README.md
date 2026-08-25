@@ -13,6 +13,7 @@ CollateralOS is a full-stack fintech AI platform that automates collateral risk 
 - [Technology Stack](#technology-stack)
 - [Repository Structure](#repository-structure)
 - [AI Pipeline](#ai-pipeline)
+- [System Architecture](#System-Architecture)
 - [API Reference](#api-reference)
 - [Installation](#installation)
 - [Development](#development)
